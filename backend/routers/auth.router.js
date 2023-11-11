@@ -15,10 +15,17 @@ router.post("/register",async(req,res)=>{
         user._id = uuidv4();
         user.createDate = new Date();
         user.isAdmin = false;
-        await user.save();
-        const token = jwt.sign({},secretKey,options);
-        let model = {token:token, user:user};
-        res.json(model);
+
+        const checkUserEmail = await User.findOne({email: user.email});
+
+        if(checkUserEmail != null){
+            res.status(403).json({message:"Mail kullanilmiş"});
+        }else{
+           await user.save();
+            const token = jwt.sign({},secretKey,options);
+            let model = {token:token, user:user};
+            res.json(model); 
+        }  
     }catch{
         res.status(500).json({message: console.error.message});
     }

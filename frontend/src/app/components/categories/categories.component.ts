@@ -14,7 +14,7 @@ import { NgForm } from '@angular/forms';
 })
 export class CategoriesComponent implements OnInit {
   categories: CategoryModel[] = [];
-
+  updateCategory: CategoryModel = new CategoryModel();
   constructor(
     private _toastr: ToastrService,
     private _category: CategoryService
@@ -28,6 +28,10 @@ export class CategoriesComponent implements OnInit {
     this._category.getAll(res=>this.categories = res);
   }
 
+  get(model: CategoryModel){
+    this.updateCategory = {...model};
+  }
+
   add(form:NgForm){
     if(form.valid){
       this._category.add(form.controls["name"].value,res=>{
@@ -37,6 +41,17 @@ export class CategoriesComponent implements OnInit {
         form.reset();
         this.getAll();
       })
+    }
+  }
+
+  update(form:NgForm){
+    if(form.valid){
+      this._category.update(this.updateCategory,res=>{
+        this._toastr.warning(res.message);
+        this.getAll();
+        let element = document.getElementById("updateModalCloseBtn")
+        element?.click();
+      });
     }
   }
 }

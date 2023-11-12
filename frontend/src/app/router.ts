@@ -7,9 +7,9 @@ export const routes: Routes = [
             .then(c => c.LoginComponent)
     },
     {
-        path:"register",
-        loadComponent:()=>import("./components/auth/components/register/register.component")
-        .then(c=>c.RegisterComponent)
+        path: "register",
+        loadComponent: () => import("./components/auth/components/register/register.component")
+            .then(c => c.RegisterComponent)
     },
     {
         path: "",
@@ -19,8 +19,15 @@ export const routes: Routes = [
         children: [
             {
                 path: "",
-                loadComponent: () => import("./components/home/home.component")
-                    .then(c => c.HomeComponent)
+                loadComponent:
+                    () => import("./components/home/home.component")
+                        .then(c => c.HomeComponent)
+            },
+            {
+                path: "categories",
+                loadComponent:
+                    () => import("./components/categories/categories.component")
+                        .then(c => c.CategoriesComponent)
             }
         ]
     }]

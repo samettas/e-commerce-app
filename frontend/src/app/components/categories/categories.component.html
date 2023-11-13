@@ -1,56 +1,29 @@
-<div class="card">
-    <div class="card-header">
-        <h1 style="float: left"></h1>
-        <nav aria-label="breadcrumb" style="float: right;">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Anasayfa</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Kategoriler</li>
-            </ol>
-        </nav>
+<app-blank title="Kategoriler" sectionTitle="Kategori Listesi">
+<div class="form-group">
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+        <i class="fa fa-plus"></i>
+    </button>
+    <div class="col-md-4" style="float: right;">
+        <input type="search" [(ngModel)]="search" class="form-control" placeholder="Aranacak değeri yazın...">
     </div>
 </div>
 
-<div class="card mt-2">
-    <div class="card-header">
-        <h1>Kategori Listesi</h1>
-    </div>
-    <div class="card-body">
-        <div class="form-group">
-            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-                <i class="fa fa-plus"></i>
+<app-table [heads]="['#','Kategori Adı','İşlemler']">
+    <tr *ngFor="let category of categories | categoryPipe: search let index = index">
+        <td>{{index + 1}}</td>
+        <td>{{category.name}}</td>
+        <td>
+            <button class="btn btn-outline-warning btn-sm" (click)="get(category)" data-bs-toggle="modal" data-bs-target="#updateModal">
+                <i class="fa fa-edit"></i>
             </button>
-            <div class="col-md-4" style="float: right;">
-                <input type="search" [(ngModel)]="search" class="form-control" placeholder="Aranacak değeri yazın...">
-            </div>
+            <button class="btn btn-outline-danger btn-sm mx-1" (click)="removeById(category)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+</app-table>
 
-        </div>
-        <div class="form group mt-2">
-            <table class="table table-bordered table-hovered">
-                <thead>
-                    <tr style="background-color: #f1f1f1;">
-                        <th>#</th>
-                        <th>Kategori Adı</th>
-                        <th>İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let category of categories | categoryPipe: search let index = index">
-                        <td>{{index + 1}}</td>
-                        <td>{{category.name}}</td>
-                        <td>
-                            <button class="btn btn-outline-warning btn-sm" (click)="get(category)" data-bs-toggle="modal" data-bs-target="#updateModal">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm mx-1" (click)="removeById(category)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+</app-blank>
 
 <!-- Ekleme Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">

@@ -81,6 +81,17 @@ router.post("/", async(req, res)=>{
     });
 });
 
+//Ürünün Aktif/Pasif Durumunu değiştir
+router.post("/changeActiveStatus", async(req,res)=>{
+    response(res, async()=>{
+        const {_id} = req.body;
+        let product = await Product.findById(_id);
+        product.isActive = !product.isActive;
+        await Product.findByIdAndUpdate(_id, product);
+        res.json({message: "Ürünün durumu değiştirildi!"});
+    });
+});
+
 //Ürün Id'ye göre getir
 router.post("/getById", async(req, res)=>{
     response(res, async()=>{
@@ -131,3 +142,5 @@ router.post("removeImageByProductIdAndIndex", async(req, res)=>{
         }
     });
 });
+
+module.exports = router;

@@ -18,7 +18,7 @@ router.post("/add", upload.array("images"), async(req,res)=>{
             price: price,
             categories: categories,
             isActive: true,
-            iamgeUrls: req.files,
+            imageUrls: req.files,
             createdDate: new Date()
         });
         await product.save();
@@ -29,12 +29,12 @@ router.post("/add", upload.array("images"), async(req,res)=>{
 });
 
 //Ürün Silme
-router.post("/removeById" , async(req,res)=>{
+router.post("/removeById" , async (req,res)=>{
     response(res, async()=>{
         const {_id}= req.body;
 
         const product = await Product.findById(_id);
-        for(const image.path, ()=>{}){
+        for(const image of product.imageUrls){
             fs.unlink(image.path, ()=>{});
         }
 
@@ -78,5 +78,56 @@ router.post("/", async(req, res)=>{
         };
 
         res.json(model);
+    });
+});
+
+//Ürün Id'ye göre getir
+router.post("/getById", async(req, res)=>{
+    response(res, async()=>{
+        const {_id} = req.body;
+        let product = await Product.findById(_id);
+        res.json(product);
+    });
+});
+
+//Ürün Güncelleme
+router.post("/update", upload.image(images), async(req, res)=>{
+    response(res, async()=>{
+        const {_id, name, stock, price, categories} = req.body;
+
+        let product = await Product.findById(_id);
+        for(const image of product.imageUrls){
+            fs.unlink(image.path, ()=> {});
+        }
+
+        let imageUrls;
+        imageUrls = [...product.imageUrls, ...req.files]
+        product = {
+            name: name.toUpperCase(),
+            stock: stock,
+            price: price,
+            imageUrls: imageUrls,
+            categories: categories
+        };
+        await Product.findByIdAndUpdate(_id);
+        res.json({message: "Ürün başarıyla güncellendi!"})
+    });
+});
+
+//Ürün Resmi Sil
+router.post("removeImageByProductIdAndIndex", async(req, res)=>{
+    response(res, async()=>{
+        const {_id,index} = req.body;
+
+        let product = await Product.findById(_id);
+        if(product.imageUrls.length == 1){
+            res.status(500).json({message: "Son ürün resmi silinemez. En az bir ürün resmi bulunmalıdır!"});
+        }else{
+            let image = product.imageUrls[index];
+            product.imageUrls.splice(index,1);
+            await Product.findByIdAndUpdate(_id, product);
+            fs.unlink(image.path, ()=>{});
+            res.json({message:"Ürün resmi silindi!"});
+        }
     });
 });

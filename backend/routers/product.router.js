@@ -4,12 +4,12 @@ const Product = require("../models/product");
 const {v4:uuidv4} = require("uuid");
 const fs = require("fs");
 const upload = require("../services/file.service");
+const response = require("../services/response.service");
 
 //Ürün Ekleme
 router.post("/add", upload.array("images"), async(req,res)=>{
-    try {
+    response(res, async()=>{
         const {name, stock, price, categories} = req.body;
-
         const productId = uuidv4();
         let product = new Product({
             _id: productId,
@@ -23,8 +23,7 @@ router.post("/add", upload.array("images"), async(req,res)=>{
         });
         await product.save();
 
-        res.json({"Ürün kaydı tamamlandı! "});
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
+        res.json({message: "Ürün kaydı tamamlandı! "});
+    });
+
 });

@@ -1,7 +1,7 @@
 <app-blank title="Ürünler" sectionTitle="Ürünler Listesi">
 <!-- Ekleme ve Search -->
     <div class="form-group">
-        <button class="btn btn-outline-primary" routerLink="/">
+        <button class="btn btn-outline-primary" routerLink="/products/add">
             <i class="fa fa-plus"></i>
         </button>
         <div class="col-md-3" style="float: right;">
@@ -40,14 +40,14 @@
             <td>{{product.createdDate | date: 'dd.MM.yyyy HH:mm:sss'}}</td>
             <td>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                    <input class="form-check-input" (change)="changeProductStatus(product._id)" type="checkbox" [value]="product.isActive" id="flexCheckChecked">
                   </div>
             </td>
             <td>
                 <button class="btn btn-outline-warning btn-sm" title="Güncelle">
                     <i class="fa fa-edit"></i>
                 </button>
-                <button class="btn btn-outline-danger btn-sm" title="Sil">
+                <button (click)="removeById(product._id)" class="btn btn-outline-danger btn-sm mx-1" title="Sil">
                     <i class="fa fa-trash"></i>
                 </button>
             </td>

@@ -22,9 +22,9 @@ router.post("/add", upload.array("images"), async(req,res)=>{
             createdDate: new Date()
         });
         await product.save();
-
         res.json({message: "Ürün kaydı tamamlandı! "});
     });
+    
 
 });
 
@@ -38,7 +38,7 @@ router.post("/removeById" , async (req,res)=>{
             fs.unlink(image.path, ()=>{});
         }
 
-        await Product.findByIdAndRemove(_id);
+        await Product.findByIdAndDelete(_id);
         res.json({message: "Ürün kaydı başarıyla silindi!"})
     });
 });

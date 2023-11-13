@@ -102,7 +102,7 @@ router.post("/getById", async(req, res)=>{
 });
 
 //Ürün Güncelleme
-router.post("/update", upload.image(images), async(req, res)=>{
+router.post("/update", upload.array("images"), async(req, res)=>{
     response(res, async()=>{
         const {_id, name, stock, price, categories} = req.body;
 

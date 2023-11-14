@@ -74,7 +74,7 @@ router.post("/", async(req, res)=>{
             pageSize: pageSize,
             totalPageCount: totalPageCount,
             isFirstPage: pageNumber == 1 ? true : false,
-            isLastPAge: totalPageCount == pageNumber ? true : false
+            isLastPage: totalPageCount == pageNumber ? true : false
         };
 
         res.json(model);
@@ -102,15 +102,11 @@ router.post("/getById", async(req, res)=>{
 });
 
 //Ürün Güncelleme
-router.post("/update", upload.array("images"), async(req, res)=>{
+router.post("/update", upload.array("image"), async(req, res)=>{
     response(res, async()=>{
         const {_id, name, stock, price, categories} = req.body;
 
         let product = await Product.findById(_id);
-        for(const image of product.imageUrls){
-            fs.unlink(image.path, ()=> {});
-        }
-
         let imageUrls;
         imageUrls = [...product.imageUrls, ...req.files]
         product = {
@@ -120,13 +116,13 @@ router.post("/update", upload.array("images"), async(req, res)=>{
             imageUrls: imageUrls,
             categories: categories
         };
-        await Product.findByIdAndUpdate(_id);
+        await Product.findByIdAndUpdate(_id,product);
         res.json({message: "Ürün başarıyla güncellendi!"})
     });
 });
 
 //Ürün Resmi Sil
-router.post("removeImageByProductIdAndIndex", async(req, res)=>{
+router.post("/removeImageByProductIdAndIndex", async(req, res)=>{
     response(res, async()=>{
         const {_id,index} = req.body;
 

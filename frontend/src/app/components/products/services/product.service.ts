@@ -38,8 +38,8 @@ export class ProductService {
     this._http.post<ProductModel>("products/getById", model, res=> callBack(res));
   }
 
-  removeImageByProductIdAndIndex(model: any, callBack: (res: ProductModel)=>void){
-    this._http.post<ProductModel>("products/removeImageByProductIdAndIndex", model, res=> callBack(res));
+  removeImageByProductIdAndIndex(model: any, callBack: (res: MessageResponseModel)=>void){
+    this._http.post<MessageResponseModel>("products/removeImageByProductIdAndIndex", model, res=> callBack(res));
   }
 
 }

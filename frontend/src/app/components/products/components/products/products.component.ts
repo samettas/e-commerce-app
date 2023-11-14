@@ -67,6 +67,7 @@ export class ProductsComponent implements OnInit {
     let model = {_id: id};
       this._product.changeActiveStatus(model, res=>{
         this._toastr.info(res.message);
+        this.getAll(this.request.pageNumber);
       })
   }
 }

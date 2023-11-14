@@ -1,3 +1,57 @@
 <app-blank title="Anasayfa" sectionTitle="Ürünler">
+<div class="row">
+    <div class="col-md-3 cerceve">
+        <ul>
+            <li (click)="changeCategory('Tümü')"
+            [ngClass]="request.categoryName == 'Tümü' ? 'active' : '' ">
+                Tümü
+            </li>
+            <li (click)="changeCategory(category.name)" 
+            [ngClass]="request.categoryName == category.name ? 'active' : ''"
+            *ngFor="let category of categories">
+                {{category.name}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-7">
+                    <label>Arama</label>
+                    <input [(ngModel)]="request.search" type="search" class="form-control" placeholder="Aranacak ürünü yazın...">
+                </div>
+                <div class="col-md-3">
+                    <label>Fiyat Filtresi</label>
+                    <select [(ngModel)]="request.priceFilter" class="form-control">
+                        <option value="0">Seçim yapınız...</option>
+                        <option value="1">Artan Fiyat</option>
+                        <option value="2">Azalan Fiyat</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <br>
+                    <button class="btn btn-primary">Arama Yap</button>
+                </div>
+            </div>
+            
+        </div>
 
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h1>Dom</h1>
+                    </div>
+                    <div class="card-body">
+                        <img width="200" height="160" src="" alt="">  
+                        <p><strong>Kalan Adet: 1234</strong></p>
+                        <hr>
+                        <h4 class="alert alert-danger">Adet Fiyatı: 1234</h4>
+                        <button class="btn btn-outline-success w-100">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </app-blank>

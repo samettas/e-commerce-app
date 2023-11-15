@@ -30,14 +30,16 @@ router.post("/removeById", async(req, res)=>{
         response(res, async()=>{
             const {_id} = req.body;
             let basket = await Basket.findById(_id);
-            let product = await Basket.findById(productId);
+            let product = await Product.findById(basket.productId);
             product.stock += basket.quantity;
-            await Product.findByIdAndUpdate(productId, product);
-            await Basket.findByIdAndRemove(_id);
+            await Product.findByIdAndUpdate(basket.productId, product);
+            await Basket.findByIdAndDelete(_id);
+
+            res.json({message: "Ürün sepetten kaldırıldı!" });
         });
     });
 
-router.post("/getAll", async(req,res)=>{
+router.post("/", async(req,res)=>{
     response(res, async()=>{
         const {userId} = req.body;
         const baskets = await Basket.aggregate([

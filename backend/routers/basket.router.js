@@ -57,4 +57,12 @@ router.post("/getAll", async(req,res)=>{
     });
 });
 
+router.post("/getCount", async(req,res)=>{
+    response(res, async()=>{
+        const {userId} = req.body;
+        const count = await Basket.find({userId: userId}).count();
+        res.json({count : count});
+    });
+});
+
 module.exports = router;

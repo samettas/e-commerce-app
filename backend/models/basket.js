@@ -8,6 +8,6 @@ const basketSchema = new mongoose.Schema({
     userId: String
 });
 
-const Basket = mongoose.model.("Basket", basketSchema);
+const Basket = mongoose.model("Basket", basketSchema);
 
 module.exports = Basket;

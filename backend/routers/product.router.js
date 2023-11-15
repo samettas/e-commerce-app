@@ -139,4 +139,54 @@ router.post("/removeImageByProductIdAndIndex", async(req, res)=>{
     });
 });
 
+//Anasayfa ürün listesini getir
+router.post("/getAllForHomePage", async(req, res)=>{
+    response(res, async()=>{
+        const {pageNumber, pageSize, price, search, categoryId, priceFilter} = req.body;
+        let products;
+        if(priceFilter == "0"){
+            products = await Product.
+            find({
+                isActive: true,
+                categories: { $regex: categoryId, $options: 'i'},
+                $or: [
+                    {
+                    name: {$regex: search, $options: 'i'}
+                    }
+                ]
+            })
+            .sort({name: 1})
+            .populate("categories");
+        }if(priceFilter == "1"){
+            products = await Product.
+            find({
+                isActive: true,
+                categories: { $regex: categoryId, $options: 'i'},
+                $or: [
+                    {
+                    name: {$regex: search, $options: 'i'}
+                    }
+                ]
+            })
+            .sort({price: 1})
+            .populate("categories");
+        }else{
+            products = await Product.
+            find({
+                isActive: true,
+                categories: { $regex: categoryId, $options: 'i'},
+                $or: [
+                    {
+                    name: {$regex: search, $options: 'i'}
+                    }
+                ]
+            })
+            .sort({price: -1})
+            .populate("categories");
+        }
+
+        res.json(products);
+    });
+});
+
 module.exports = router;

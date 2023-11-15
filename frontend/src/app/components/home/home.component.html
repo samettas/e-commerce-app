@@ -2,11 +2,11 @@
 <div class="row">
     <div class="col-md-3 cerceve">
         <ul>
-            <li (click)="changeCategory('Tümü')"
+            <li (click)="changeCategory('','Tümü')"
             [ngClass]="request.categoryName == 'Tümü' ? 'active' : '' ">
                 Tümü
             </li>
-            <li (click)="changeCategory(category.name)" 
+            <li (click)="changeCategory(category._id,category.name)" 
             [ngClass]="request.categoryName == category.name ? 'active' : ''"
             *ngFor="let category of categories">
                 {{category.name}}
@@ -25,29 +25,29 @@
                     <select [(ngModel)]="request.priceFilter" class="form-control">
                         <option value="0">Seçim yapınız...</option>
                         <option value="1">Artan Fiyat</option>
-                        <option value="2">Azalan Fiyat</option>
+                        <option value="-1">Azalan Fiyat</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <br>
-                    <button class="btn btn-primary">Arama Yap</button>
+                    <button (click)="getAll()" class="btn btn-primary">Arama Yap</button>
                 </div>
             </div>
             
         </div>
 
         <div class="row mt-2">
-            <div class="col-md-3">
+            <div class="col-md-4" *ngFor="let product of products let i = index">
                 <div class="card text-center">
                     <div class="card-header">
-                        <h1>Dom</h1>
+                        <h1>{{product.name}}</h1>
                     </div>
                     <div class="card-body">
-                        <img width="200" height="160" src="" alt="">  
-                        <p><strong>Kalan Adet: 1234</strong></p>
+                        <img width="200" height="160" [src]="'http://localhost:5000/' + product.imageUrls[0].path">  
+                        <p><strong>Kalan Adet: {{product.stock}}</strong></p>
                         <hr>
-                        <h4 class="alert alert-danger">Adet Fiyatı: 1234</h4>
-                        <button class="btn btn-outline-success w-100">Sepete Ekle</button>
+                        <h4 class="alert alert-danger">Adet Fiyatı: {{product.price | trCurrency: '₺'}}</h4>
+                        <button *ngIf="product.stock > 0" class="btn btn-outline-success w-100">Sepete Ekle</button>
                     </div>
                 </div>
             </div>

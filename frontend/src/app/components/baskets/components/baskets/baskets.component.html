@@ -30,8 +30,10 @@
         </tr>
     </app-table>
         </div>
-        <div class="col-md-3">
-
+        <div class="col-md-3" style="border: 1px solid #ccc; padding: 10px;">
+            <h4 class="text-center">Ödenecek Tutar</h4>
+            <h2 class="alert alert-primary">Toplam: {{sum | trCurrency : '₺'}}</h2>
+            <button *ngIf="baskets.length > 0" class="btn btn-warning w-100">Ödeme Yap</button>
         </div>
     </div>
 </app-blank>

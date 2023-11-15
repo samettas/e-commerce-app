@@ -30,7 +30,7 @@ export class BasketService {
   add(model: BasketModel, callBack: (res: MessageResponseModel)=> void){
     let userString = localStorage.getItem("user");
     let user =  JSON.parse(userString);
-    model.userId =  user._id;
+    model.userId = user._id;
     this._http.post<MessageResponseModel>("baskets/add", model, res =>{
       this.getCount();
       callBack(res);

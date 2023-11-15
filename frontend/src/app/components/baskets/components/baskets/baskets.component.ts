@@ -4,6 +4,7 @@ import { BasketModel } from '../../models/basket.model';
 import { BasketService } from '../../services/basket.service';
 import { ToastrService } from 'ngx-toastr';
 import { SwalService } from 'src/app/common/services/swal.service';
+import { OrderService } from 'src/app/components/orders/services/order.service';
 
 @Component({
   selector: 'app-baskets',
@@ -19,7 +20,8 @@ export class BasketsComponent implements OnInit {
   constructor(
     private _basket: BasketService,
     private _toastr: ToastrService,
-    private _swal: SwalService
+    private _swal: SwalService,
+    private _order: OrderService
   ) { }
   
   ngOnInit(): void {
@@ -48,7 +50,15 @@ export class BasketsComponent implements OnInit {
         this.getAll();
       });
     });
+  }
 
+  createOrder(){
+    this._swal.callSwal("Ürünleri almak istiyor musunuz?", "Siparişi Onayla", "Ödeme Yap", ()=>{
+      this._order.create(res=>{
+        this._toastr.success(res.message);
+        this.getAll();
+      });
+    });
   }
 
 }

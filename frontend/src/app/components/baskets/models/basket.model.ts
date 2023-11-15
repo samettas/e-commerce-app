@@ -6,5 +6,5 @@ export class BasketModel {
     productId: string = "";
     products: ProductModel[] = [];
     price: number = 0;
-    quantity: number = 1;
+    quantity: number = 1; 
 }

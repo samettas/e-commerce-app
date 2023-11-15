@@ -11,7 +11,7 @@ import { BasketService } from '../../baskets/services/basket.service';
 })
 export class NavbarComponent {
   constructor(
-    public _basket : BasketService
+    public _basket : BasketService,
   ){
     this._basket.getCount();
   }
